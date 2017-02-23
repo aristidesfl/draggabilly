@@ -106,6 +106,7 @@ function Draggabilly( element, options ) {
 var proto = Draggabilly.prototype = Object.create( Unidragger.prototype );
 
 Draggabilly.defaults = {
+  excludeChildren: false
 };
 
 /**
@@ -236,6 +237,10 @@ proto.canPreventDefaultOnPointerDown = function( event ) {
  * @param {Event or Touch} pointer
  */
 proto.pointerDown = function( event, pointer ) {
+  if (this.options.excludeChildren && this.element !== event.target) {
+    return;
+  }
+
   this._dragPointerDown( event, pointer );
   // kludge to blur focused inputs in dragger
   var focused = document.activeElement;
